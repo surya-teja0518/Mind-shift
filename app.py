@@ -1,6 +1,5 @@
 import os
 import time
-import json
 import streamlit as st
 from dotenv import load_dotenv
 
@@ -271,7 +270,7 @@ if "needs_streaming" not in st.session_state:
 
 # Sidebar Content
 with st.sidebar:
-    st.markdown("### ⚙️ System Controls")
+    st.subheader("⚙️ System Controls")
     
     # API Configuration Check
     api_key = get_gemini_api_key()
@@ -279,7 +278,7 @@ with st.sidebar:
         st.success("🔑 Gemini API Key configured.")
     else:
         st.error("⚠️ GEMINI_API_KEY is not set.")
-        manual_key = st.text_input("Enter Gemini API Key", type="password")
+        manual_key = st.text_input("Enter Gemini API Key", type="password", help="Paste your Google Gemini API Key here to enable live AI responses.")
         if manual_key:
             os.environ["GEMINI_API_KEY"] = manual_key
             st.success("API key applied for this session!")
@@ -287,8 +286,8 @@ with st.sidebar:
 
     # Reset System Option
     st.markdown("---")
-    st.markdown("### ⚠️ Danger Zone")
-    if st.button("Reset All Companion Data", use_container_width=True):
+    st.subheader("⚠️ Danger Zone")
+    if st.button("Reset All Companion Data", use_container_width=True, help="Warning: This will permanently delete all logs, streaks, and your profile data."):
         clear_db()
         st.session_state.clear()
         st.success("All data cleared. Restarting companion onboarding!")
@@ -304,23 +303,26 @@ if not profile:
     # ==========================================
     st.markdown('<div class="header-card" role="banner"><h1 class="header-title">MIND<span>SHIFT</span></h1><p class="header-subtitle">AI-Powered Recovery Companion for Digital Addictions</p></div>', unsafe_allow_html=True)
     
-    st.markdown("### Welcome to your MindShift Onboarding")
+    st.markdown("## Welcome to your MindShift Onboarding")
     st.markdown("Before we can build your recovery companion, let's configure your journey.")
     
     with st.form("onboarding_form"):
         habit = st.selectbox(
             "Select the digital addiction you wish to recover from:",
-            ["Doom-scrolling (TikTok/Instagram Reels)", "Excessive Social Media checking", "Compulsive mobile gaming", "Late-night screen browsing", "Online news micro-obsessions"]
+            ["Doom-scrolling (TikTok/Instagram Reels)", "Excessive Social Media checking", "Compulsive mobile gaming", "Late-night screen browsing", "Online news micro-obsessions"],
+            help="Choose the digital behavioral pattern you want to recover from."
         )
         
         triggers = st.text_input(
             "What triggers this behavior? (Comma-separated, e.g. stress, boredom, morning waking):",
-            placeholder="boredom, morning waking, study stress"
+            placeholder="boredom, morning waking, study stress",
+            help="List any emotional states, environments, or schedules that prompt this behavior."
         )
         
         goal = st.text_input(
             "What is your target screen time goal? (e.g. Reduce from 8hrs to 3hrs daily):",
-            placeholder="Reduce from 6hrs to 2hrs daily"
+            placeholder="Reduce from 6hrs to 2hrs daily",
+            help="Specify your target daily screen time limit."
         )
         
         submit_btn = st.form_submit_button("Generate My Recovery Plan", use_container_width=True)
@@ -390,7 +392,7 @@ else:
             st.write("Tell your coach what triggers are pulling you to the screen right now. We will help you ground yourself.")
             
             with st.form("sos_form"):
-                user_msg = st.text_area("Tell us what's happening:", height=100, placeholder="I am staring at my phone and have a strong urge to open social media...")
+                user_msg = st.text_area("Tell us what's happening:", height=100, placeholder="I am staring at my phone and have a strong urge to open social media...", help="Describe what is triggering your urge so the coach can offer immediate grounding techniques.")
                 sos_submit = st.form_submit_button("Request Crisis Intervention")
                 
                 if sos_submit:
@@ -413,7 +415,7 @@ else:
             st.write("Respond to your coach's nudge below to check-in:")
             
             with st.form("nudge_response_form"):
-                nudge_input = st.text_area("Your response:", height=100, placeholder="It's 2 PM and I am indeed feeling bored. I opened TikTok for a second but closed it.")
+                nudge_input = st.text_area("Your response:", height=100, placeholder="It's 2 PM and I am indeed feeling bored. I opened TikTok for a second but closed it.", help="Write how you are feeling or responding to the coach's nudge warning.")
                 nudge_submit = st.form_submit_button("Send Response")
                 
                 if nudge_submit:
@@ -438,8 +440,8 @@ else:
             with tabs[0]:
                 st.write("Log your emotional check-in to receive today's micro-goal and keep your streak.")
                 with st.form("checkin_form"):
-                    checkin_msg = st.text_area("How are you feeling about your screen use today?", height=100, placeholder="I feel motivated. Kept phone away during lunch but felt a bit of an urge around 3pm...")
-                    screen_time = st.number_input("Log actual screen time logged today (minutes, optional):", min_value=0, value=0)
+                    checkin_msg = st.text_area("How are you feeling about your screen use today?", height=100, placeholder="I feel motivated. Kept phone away during lunch but felt a bit of an urge around 3pm...", help="Type down your physical/emotional checks, focus stats, or cravings.")
+                    screen_time = st.number_input("Log actual screen time logged today (minutes, optional):", min_value=0, value=0, help="Optional. Enter the total screen time tracked in minutes today.")
                     
                     checkin_submit = st.form_submit_button("Submit Check-in")
                     
@@ -460,7 +462,7 @@ else:
             with tabs[1]:
                 st.write("Logging a relapse handles your emotions compassionately. Your streak will be converted to a **Recovery Streak** rather than wiped out.")
                 with st.form("relapse_form"):
-                    relapse_msg = st.text_area("What trigger pulled you back to doom-scrolling?", height=100, placeholder="I got highly stressed about a work deadline and ended up doom-scrolling for 2 hours in the afternoon...")
+                    relapse_msg = st.text_area("What trigger pulled you back to doom-scrolling?", height=100, placeholder="I got highly stressed about a work deadline and ended up doom-scrolling for 2 hours in the afternoon...", help="Describe what happened so the coach can adjust your roadmap without wiping your streak count.")
                     relapse_submit = st.form_submit_button("Report Relapse & Enter Recovery Mode")
                     
                     if relapse_submit:
