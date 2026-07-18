@@ -294,10 +294,8 @@ with st.sidebar:
         time.sleep(1)
         st.rerun()
 
-# Check if User Profile exists in Database (Session Caching)
-if "profile" not in st.session_state:
-    st.session_state.profile = get_profile()
-profile = st.session_state.profile
+# Check if User Profile exists in Database
+profile = get_profile()
 
 if not profile:
     # ==========================================
@@ -338,10 +336,6 @@ if not profile:
                     try:
                         plan_text = onboard_user(profile_input)
                         st.session_state.onboarding_plan = plan_text
-                        # Prime session state cache
-                        st.session_state.profile = get_profile()
-                        st.session_state.streak = get_streak()
-                        st.session_state.recent_logs = get_recent_logs(limit=5)
                         st.success("Onboarding Plan generated successfully!")
                         time.sleep(1)
                         st.rerun()
@@ -353,14 +347,9 @@ else:
     # DASHBOARD VIEW (Phases 2-4)
     # ==========================================
     
-    # Read state parameters from Session State cache to maximize efficiency
-    if "streak" not in st.session_state:
-        st.session_state.streak = get_streak()
-    if "recent_logs" not in st.session_state:
-        st.session_state.recent_logs = get_recent_logs(limit=5)
-        
-    streak = st.session_state.streak
-    recent_logs = st.session_state.recent_logs
+    # Read state parameters
+    streak = get_streak()
+    recent_logs = get_recent_logs(limit=5)
     
     # Custom Header
     st.markdown('<div class="header-card" role="banner"><h1 class="header-title">MIND<span>SHIFT</span></h1><p class="header-subtitle">Recovery Companion &middot; Dynamic Coaching Dashboard</p></div>', unsafe_allow_html=True)
@@ -416,9 +405,6 @@ else:
                                 st.session_state.active_response = response.model_dump()
                                 st.session_state.last_action = "response"
                                 st.session_state.needs_streaming = True
-                                # Refresh cached states in session state
-                                st.session_state.streak = get_streak()
-                                st.session_state.recent_logs = get_recent_logs(limit=5)
                                 st.rerun()
                             except Exception as e:
                                 st.error(f"SOS Intervention call failed: {str(e)}")
@@ -443,9 +429,6 @@ else:
                                 st.session_state.last_action = "response"
                                 st.session_state.needs_streaming = True
                                 st.session_state.simulated_nudge = None
-                                # Refresh cached states in session state
-                                st.session_state.streak = get_streak()
-                                st.session_state.recent_logs = get_recent_logs(limit=5)
                                 st.rerun()
                             except Exception as e:
                                 st.error(f"Failed to process check-in: {str(e)}")
@@ -472,9 +455,6 @@ else:
                                     st.session_state.active_response = response.model_dump()
                                     st.session_state.last_action = "response"
                                     st.session_state.needs_streaming = True
-                                    # Refresh cached states in session state
-                                    st.session_state.streak = get_streak()
-                                    st.session_state.recent_logs = get_recent_logs(limit=5)
                                     st.rerun()
                                 except Exception as e:
                                     st.error(f"Check-in failed: {str(e)}")
@@ -495,9 +475,6 @@ else:
                                     st.session_state.active_response = response.model_dump()
                                     st.session_state.last_action = "response"
                                     st.session_state.needs_streaming = True
-                                    # Refresh cached states in session state
-                                    st.session_state.streak = get_streak()
-                                    st.session_state.recent_logs = get_recent_logs(limit=5)
                                     st.rerun()
                                 except Exception as e:
                                     st.error(f"Relapse logging failed: {str(e)}")
