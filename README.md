@@ -88,14 +88,14 @@ streamlit run app.py
 
 ---
 
-## ☁️ Streamlit Community Cloud Deployment
+## ☁️ Render Deployment
 
-MindShift is optimized for hosting on **Streamlit Community Cloud**:
-1. Push this repository to GitHub.
-2. Log into [Streamlit Share](https://share.streamlit.io/).
-3. Click **New app**, select your repository, branch, and entry point (`app.py`).
-4. In **Advanced settings**, add your Gemini API key in TOML format:
-   ```toml
-   GEMINI_API_KEY = "your_actual_gemini_api_key_here"
-   ```
-5. Click **Deploy**. Dependencies from `requirements.txt` will automatically install and launch.
+MindShift is optimized for hosting on **Render**:
+1. Connect your GitHub repository to [Render](https://render.com/).
+2. Create a new **Web Service** with the configuration:
+   * **Runtime**: `Python`
+   * **Build Command**: `pip install -r requirements.txt`
+   * **Start Command**: `streamlit run app.py --server.port $PORT --server.address 0.0.0.0`
+3. Under **Advanced Settings**, add the environment secret:
+   * `GEMINI_API_KEY` = `your_actual_gemini_api_key_here`
+4. Click **Create Web Service**. Dependencies will build and deploy on a permanent static URL.
