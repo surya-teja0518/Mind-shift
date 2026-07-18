@@ -1,6 +1,5 @@
 from datetime import datetime
-import json
-from typing import Dict, Any, List
+from typing import Any, List
 from src.models import MindShiftResponse, UserProfileInput
 from src.prompts import ONBOARDING_PLAN_PROMPT, CHECKIN_PROMPT, RELAPSE_PROMPT, INSIGHT_PROMPT
 from src.gemini import generate_coaching_response, generate_onboarding_plan

@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from typing import List, Literal, Optional
+from typing import List, Literal
 
 class MindShiftResponse(BaseModel):
     emotional_state: Literal["stressed", "calm", "anxious", "motivated", "relapsing"] = Field(

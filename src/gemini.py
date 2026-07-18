@@ -1,7 +1,6 @@
 import json
 import time
 import urllib.request
-import urllib.error
 from src.models import MindShiftResponse
 from src.prompts import SYSTEM_INSTRUCTIONS
 from src.utils import get_gemini_api_key, get_gemini_model, get_logger
