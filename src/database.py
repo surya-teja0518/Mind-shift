@@ -8,12 +8,12 @@ from src.utils import get_logger
 logger = get_logger()
 DB_PATH = "mindshift.db"
 
-def get_db_connection():
+def get_db_connection() -> sqlite3.Connection:
     conn = sqlite3.connect(DB_PATH)
     conn.row_factory = sqlite3.Row
     return conn
 
-def init_db():
+def init_db() -> None:
     """
     Initializes the SQLite database and creates tables if they don't exist.
     """
@@ -75,7 +75,7 @@ def init_db():
     finally:
         conn.close()
 
-def save_profile(habit_type: str, declared_triggers: List[str], reduction_goal: str, thirty_day_plan: str):
+def save_profile(habit_type: str, declared_triggers: List[str], reduction_goal: str, thirty_day_plan: str) -> None:
     """
     Saves or overwrites the user profile in the database.
     """
@@ -147,7 +147,7 @@ def log_session(
     micro_goal_delivered: str, 
     flags_raised: List[str], 
     actual_screen_time: Optional[int] = None
-):
+) -> None:
     """
     Appends a new interaction log to the database.
     """
@@ -224,7 +224,7 @@ def get_streak() -> Dict[str, Any]:
     finally:
         conn.close()
 
-def update_streak(count: int, streak_type: str):
+def update_streak(count: int, streak_type: str) -> None:
     """
     Updates the streak parameters.
     """
@@ -244,7 +244,7 @@ def update_streak(count: int, streak_type: str):
     finally:
         conn.close()
 
-def clear_db():
+def clear_db() -> None:
     """
     Resets the database completely.
     """

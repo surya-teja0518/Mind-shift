@@ -52,12 +52,6 @@ def get_gemini_model() -> str:
     """
     return os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
 
-def format_currency(amount: float, currency_symbol: str = "$") -> str:
-    """
-    Formats a floating point number as currency.
-    """
-    return f"{currency_symbol}{amount:.2f}"
-
 def validate_environment_keys() -> Tuple[bool, str]:
     """
     Verifies that required API keys are available in secrets or environment.
