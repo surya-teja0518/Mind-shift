@@ -82,10 +82,16 @@ def get_custom_css() -> str:
         letter-spacing: 1.5px;
     }
     .header-subtitle {
-        color: #a3b3aa;
+        color: #d5ded9;
         font-size: 1.1rem;
         margin-top: 8px;
         font-weight: 400;
+    }
+    
+    /* Input placeholder accessibility override */
+    ::placeholder {
+        color: #8b9e95 !important;
+        opacity: 1 !important;
     }
     
     /* Streak Badge widget styling */
@@ -164,7 +170,7 @@ def get_custom_css() -> str:
     }
     .metric-label {
         font-size: 0.85rem;
-        color: #a3b3aa;
+        color: #c5d0ca;
         text-transform: uppercase;
         letter-spacing: 1px;
     }
@@ -296,7 +302,7 @@ if not profile:
     # ==========================================
     # ONBOARDING VIEW (Phase 1)
     # ==========================================
-    st.markdown('<div class="header-card"><h1 class="header-title">MIND<span>SHIFT</span></h1><p class="header-subtitle">AI-Powered Recovery Companion for Digital Addictions</p></div>', unsafe_allow_html=True)
+    st.markdown('<div class="header-card" role="banner"><h1 class="header-title">MIND<span>SHIFT</span></h1><p class="header-subtitle">AI-Powered Recovery Companion for Digital Addictions</p></div>', unsafe_allow_html=True)
     
     st.markdown("### Welcome to your MindShift Onboarding")
     st.markdown("Before we can build your recovery companion, let's configure your journey.")
@@ -344,7 +350,7 @@ else:
     recent_logs = get_recent_logs(limit=5)
     
     # Custom Header
-    st.markdown('<div class="header-card"><h1 class="header-title">MIND<span>SHIFT</span></h1><p class="header-subtitle">Recovery Companion &middot; Dynamic Coaching Dashboard</p></div>', unsafe_allow_html=True)
+    st.markdown('<div class="header-card" role="banner"><h1 class="header-title">MIND<span>SHIFT</span></h1><p class="header-subtitle">Recovery Companion &middot; Dynamic Coaching Dashboard</p></div>', unsafe_allow_html=True)
     
     # Layout Grid: Left pane (Streak, SOS, Check-in) | Right pane (Timeline, Analytics, Insights)
     col1, col2 = st.columns([1, 1])
@@ -355,8 +361,8 @@ else:
         streak_name = "Recovery Streak" if streak["type"] == "recovery" else "Clean Habit Streak"
         
         st.markdown(f"""
-        <div class="streak-container {streak_style}">
-            <i class="fa-solid fa-fire-flame-simple" style="font-size: 2rem;"></i>
+        <div class="streak-container {streak_style}" role="status" aria-live="polite" aria-label="{streak_name}: {streak['count']} Days">
+            <i class="fa-solid fa-fire-flame-simple" style="font-size: 2rem;" role="img" aria-hidden="true"></i>
             <div>
                 <div class="metric-value" style="color: inherit;">{streak['count']} Days</div>
                 <div class="metric-label" style="color: inherit;">{streak_name}</div>
@@ -366,7 +372,7 @@ else:
         
         # 2. Emergency SOS Widget (Phase 4)
         if st.session_state.sos_mode:
-            st.markdown('<div class="sos-active-banner"><i class="fa-solid fa-circle-exclamation"></i> EMERGENCY SOS MODE ACTIVE &middot; AI COACH RESPONDING IN CRISIS PERSONA</div>', unsafe_allow_html=True)
+            st.markdown('<div class="sos-active-banner" role="alert"><i class="fa-solid fa-circle-exclamation" role="img" aria-hidden="true"></i> EMERGENCY SOS MODE ACTIVE &middot; AI COACH RESPONDING IN CRISIS PERSONA</div>', unsafe_allow_html=True)
             if st.button("Cancel Crisis SOS Mode", type="secondary", use_container_width=True):
                 st.session_state.sos_mode = False
                 st.rerun()
@@ -536,7 +542,7 @@ else:
             
             # Highlight Micro-Goal
             goal_html = f"""
-            <div style="background-color: rgba(46, 204, 113, 0.1); border-left: 4px solid #2ecc71; padding: 15px; border-radius: 8px; margin: 15px 0;">
+            <div style="background-color: rgba(46, 204, 113, 0.1); border-left: 4px solid #2ecc71; padding: 15px; border-radius: 8px; margin: 15px 0;" role="region" aria-label="Today's Micro Goal">
                 <strong style="color: #2ecc71; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px;">Today&apos;s Micro-Goal:</strong>
                 <p style="font-size: 1.15rem; font-weight: 600; margin: 5px 0 0 0;">{resp["micro_goal"]}</p>
             </div>
