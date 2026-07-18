@@ -23,3 +23,8 @@ Thumbs.db
 # Databases
 *.db
 mindshift.db
+
+# Executables & Logs
+*.exe
+cloudflared_py.exe
+*.log
