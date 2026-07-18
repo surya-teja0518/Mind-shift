@@ -1,0 +1,25 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Caches
+.pytest_cache/
+.coverage
+htmlcov/
+.streamlit/config.toml
+
+# Environments
+.env
+.venv
+venv/
+ENV/
+env/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Databases
+*.db
+mindshift.db
