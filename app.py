@@ -601,11 +601,21 @@ else:
         st.markdown('<div class="glass-card">', unsafe_allow_html=True)
         st.subheader("📊 Weekly AI Analysis")
         
+        if "weekly_insight" not in st.session_state:
+            st.session_state.weekly_insight = None
+            
         # Interactive Generation of Insights
         if st.button("Generate Weekly Analytical Summary", use_container_width=True):
             with st.spinner("Aggregating historical session logs and patterns..."):
                 insight_narrative = generate_weekly_insight()
-                st.info(insight_narrative)
+                st.session_state.weekly_insight = insight_narrative
+                st.rerun()
+                
+        if st.session_state.weekly_insight:
+            st.info(st.session_state.weekly_insight)
+            if st.button("Clear Analytical Summary", use_container_width=True):
+                st.session_state.weekly_insight = None
+                st.rerun()
         else:
             st.write("Click above to compile your logs into a custom, non-judgmental AI narrative summary.")
             
